@@ -70,16 +70,17 @@ def run_mummer():
                 proc = subprocess.Popen(mummer_cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=True)
 
                 while True:
-                    for char in proc.stdout.read(1):
-                        if char:
-                            if str(char) != '\n':
-                                yield str(char)
-                            else:
-                                yield '<br />\n'
+                    char = proc.stdout.read(1)
+                    if char:
+                        if str(char) != '\n':
+                            yield str(char)
                         else:
-                            break
+                            yield '<br />\n'
+                    else:
+                        break
 
-                yield '<a href="/tmp/nucmer/nucmer.coords">nucmer.coords</a>'
+                #TODO: not working, points to relative dir
+                yield '<a href="/tmp/nucmer/nucmer.coords">nucmer.coords</a>\n'
 
             #return open("/tmp/nucmer.coords").read()
             return flask.Response(inner(), mimetype='text/html')
