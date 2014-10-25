@@ -44,7 +44,7 @@ def asm_stats():
             save_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
             file.save(save_path)
             os.environ["FASTA_FILE"] = save_path
-            notebook = read(open("masmvaliweb/notebooks/assembly_stats.ipynb"), 'json')
+            notebook = read(open("masmvaliweb/notebooks/assembly-stats.ipynb"), 'json')
             r = NotebookRunner(notebook)
             r.run_notebook()
             os.remove(save_path)
@@ -66,7 +66,8 @@ def run_mummer():
 
             def inner():
                 # run MUMmer
-                mummer_cmd = "echo RUNNING NUCMER && bash -x ~/github/metassemble/scripts/validate/nucmer/run-nucmer.sh test/references/Mircea_07102013_selected_refs.fasta {0} /tmp/nucmer && echo SUCCESS!".format(save_path)
+                #mummer_cmd = "echo RUNNING NUCMER && bash -x ~/github/metassemble/scripts/validate/nucmer/run-nucmer.sh test/references/Mircea_07102013_selected_refs.fasta {0} /tmp/nucmer && echo SUCCESS!".format(save_path)
+                mummer_cmd = "echo fakka"
                 proc = subprocess.Popen(mummer_cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=True)
 
                 while True:
@@ -81,6 +82,13 @@ def run_mummer():
 
                 #TODO: not working, points to relative dir
                 yield '<a href="/tmp/nucmer/nucmer.coords">nucmer.coords</a>\n'
+
+                notebook = read(open("masmvaliweb/notebooks/mgcov-comparison-mpld3.ipynb"), 'json')
+                r = NotebookRunner(notebook)
+                r.run_notebook()
+                exportHTML = HTMLExporter(config=Config({'HTMLExporter': {'default_template': 'basic'}}))
+                #yield exportHTML.from_notebook_node(r.nb)[0]
+                yield open("masmvaliweb/notebooks/mgcov-comp.html").read()
 
             #return open("/tmp/nucmer.coords").read()
             return flask.Response(inner(), mimetype='text/html')

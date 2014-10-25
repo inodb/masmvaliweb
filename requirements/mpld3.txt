@@ -1,0 +1,1 @@
+-e git://github.com/jakevdp/mpld3.git@cec043807d18d788221455f1933f2cc7099f794e#egg=mpld3
