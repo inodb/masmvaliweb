@@ -1,5 +1,9 @@
 import os
+import time
 import errno
+import subprocess
+
+import flask
 from flask import Flask, request, redirect, url_for
 from werkzeug import secure_filename
 
@@ -44,9 +48,41 @@ def asm_stats():
             r = NotebookRunner(notebook)
             r.run_notebook()
             os.remove(save_path)
-            exportHTML = HTMLExporter(config=Config({'HTMLExporter':{'default_template':'basic'}}))
+            exportHTML = HTMLExporter(config=Config({'HTMLExporter': {'default_template': 'basic'}}))
             #return writes(r.nb, 'json')
             return exportHTML.from_notebook_node(r.nb)[0]
+    return "Post assembly file"
+
+
+@app.route("/mummer", methods=['GET', 'POST'])
+def run_mummer():
+    if request.method == 'POST':
+        file = request.files['file']
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            make_dir(app.config["UPLOAD_FOLDER"])
+            save_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            file.save(save_path)
+
+            def inner():
+                # run MUMmer
+                mummer_cmd = "echo RUNNING NUCMER && bash -x ~/github/metassemble/scripts/validate/nucmer/run-nucmer.sh test/references/Mircea_07102013_selected_refs.fasta {0} /tmp/nucmer && echo SUCCESS!".format(save_path)
+                proc = subprocess.Popen(mummer_cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=True)
+
+                while True:
+                    for char in proc.stdout.read(1):
+                        if char:
+                            if str(char) != '\n':
+                                yield str(char)
+                            else:
+                                yield '<br />\n'
+                        else:
+                            break
+
+                yield '<a href="/tmp/nucmer/nucmer.coords">nucmer.coords</a>'
+
+            #return open("/tmp/nucmer.coords").read()
+            return flask.Response(inner(), mimetype='text/html')
     return "Post assembly file"
 
 
@@ -62,7 +98,7 @@ def index():
     <!doctype html>
     <title>Upload new File</title>
     <h1>Upload new File</h1>
-    <form action="/asmstats" method=post enctype=multipart/form-data>
+    <form action="/mummer" method=post enctype=multipart/form-data>
       <p><input type=file name=file>
          <input type=submit value=Upload>
     </form>
@@ -73,4 +109,4 @@ def index():
 if __name__ == "__main__":
     make_dir(app.config["UPLOAD_FOLDER"])
     port = int(os.environ.get("PORT", 5000))
-    app.run(host='0.0.0.0', port=port)
+    app.run(host='0.0.0.0', port=port, debug=True)
