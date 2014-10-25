@@ -1,0 +1,10 @@
+Flask==0.10.1
+Jinja2==2.7.3
+MarkupSafe==0.23
+Pygments==1.6
+Werkzeug==0.9.6
+ipython==2.3.0
+itsdangerous==0.24
+pyzmq==14.4.0
+runipy==0.1.1
+wsgiref==0.1.2
