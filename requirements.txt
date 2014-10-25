@@ -1,8 +1,10 @@
 Flask==0.10.1
 Jinja2==2.7.3
 MarkupSafe==0.23
+PasteDeploy==1.5.2
 Pygments==1.6
 Werkzeug==0.9.6
+gunicorn==19.1.1
 ipython==2.3.0
 itsdangerous==0.24
 pyzmq==14.4.0
