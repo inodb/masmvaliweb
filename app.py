@@ -36,6 +36,7 @@ def asm_stats():
         file = request.files['file']
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
+            make_dir(app.config["UPLOAD_FOLDER"])
             save_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
             file.save(save_path)
             os.environ["FASTA_FILE"] = save_path
@@ -71,4 +72,5 @@ def index():
 
 if __name__ == "__main__":
     make_dir(app.config["UPLOAD_FOLDER"])
-    app.run()
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host='0.0.0.0', port=port)
