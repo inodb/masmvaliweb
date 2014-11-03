@@ -1,0 +1,28 @@
+{% extends 'masmvaliweb/base.html' %}
+{% block bootstrap3_content %}
+    {% with active=1 %}
+    {{block.super}}
+    {% endwith %}
+{% endblock bootstrap3_content %}
+
+{% load bootstrap3 %}
+
+{% block title %}
+Upload Assembly
+{% endblock title %}
+
+{# Display a form #}
+
+{% block content %}
+    <form class="form" method="post" action=""
+        {% if layout != 'vertical' %}class="form-{{ layout }}"{% endif %} 
+        enctype="multipart/form-data">
+        {% csrf_token %}
+        {% bootstrap_form form layout=layout %}
+        {% buttons %}
+            <button type="submit" class="btn btn-primary">
+                {% bootstrap_icon "star" %} Upload Assembly
+            </button>
+        {% endbuttons %}
+    </form>
+{% endblock content %}

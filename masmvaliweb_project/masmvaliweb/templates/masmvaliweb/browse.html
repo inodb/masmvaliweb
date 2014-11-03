@@ -1,0 +1,20 @@
+{% extends 'masmvaliweb/base.html' %}
+{% block bootstrap3_content %}
+    {% with active=2 %}
+    {{block.super}}
+    {% endwith %}
+{% endblock bootstrap3_content %}
+
+{% load bootstrap3 %}
+
+{% block title %}
+Browse
+{% endblock title %}
+
+{% block content %}
+
+<a href="{% url "masmvaliweb.views.index" %}">MASMVALI</a> > <a href="{% url "masmvaliweb.views.browse" %}">Browse</a>
+<p>
+<h2>Metagenomes</h2>
+</p>
+{% endblock %}

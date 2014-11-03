@@ -1,0 +1,20 @@
+{% extends 'masmvaliweb/base.html' %}
+{% block bootstrap3_content %}
+    {% with active=1 %}
+    {{block.super}}
+    {% endwith %}
+{% endblock bootstrap3_content %}
+
+{% load bootstrap3 %}
+
+{% block title %}
+Home
+{% endblock title %}
+
+{% block content %}
+<p>
+<div class="center">
+<a href="{% url "masmvaliweb.views.browse" %}">Browse</a> metagenomic assemblies
+</div>
+</p>
+{% endblock %}
