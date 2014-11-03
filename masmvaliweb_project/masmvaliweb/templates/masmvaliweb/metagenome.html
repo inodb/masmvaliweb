@@ -1,0 +1,28 @@
+{% extends 'masmvaliweb/base.html' %}
+{% block bootstrap3_content %}
+    {% with active=2 %}
+    {{block.super}}
+    {% endwith %}
+{% endblock bootstrap3_content %}
+
+{% load bootstrap3 %}
+
+{% block title %}
+Browse
+{% endblock title %}
+
+{% block content %}
+
+<ol class="breadcrumb">
+    <li><a href="{% url "masmvaliweb.views.index" %}">MASMVALI</a></li>
+    <li><a href="{% url "masmvaliweb.views.browse" %}">Browse</a></li>
+</ol>
+<p>
+<h4>Name</h4>
+{{ metagenome.name }}<br />
+<h4>Description</h4>
+{{ metagenome.description }}
+<h4>Reads</h4>
+<a href='{{ metagenome.reads}}'>Download</a><br />
+</p>
+{% endblock %}
