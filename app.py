@@ -91,7 +91,7 @@ def view_add_numbers():
         return "No result"
 
 
-@app.route("assembly/<asm_name>/notebooks/view/asmstats/")
+@app.route("/assembly/<asm_name>/notebooks/view/asmstats/")
 def show_notebook(asm_name):
     fn = os.path.join(app.config["UPLOAD_FOLDER"], asm_name, "asmstats.html")
     if os.path.isfile(fn):
@@ -168,7 +168,7 @@ def index():
     <!doctype html>
     <title>Upload new File</title>
     <h1>Upload new File</h1>
-    <form action="notebooks/run/asmstats" method=post enctype=multipart/form-data>
+    <form action="mummer" method=post enctype=multipart/form-data>
       <input type=file name=file><br />
       Name assembly recipe: <input type="text" name=asm_name><br />
       <input type=submit value=Upload><br />

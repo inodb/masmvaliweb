@@ -16,9 +16,11 @@ Browse
 <ol class="breadcrumb">
     <li><a href="{% url "masmvaliweb.views.index" %}">MASMVALI</a></li>
     <li><a href="{% url "masmvaliweb.views.browse" %}">Browse</a></li>
+    <li><a href="{% url "masmvaliweb.views.browse" %}">Metagenome</a></li>
+    <li>{{ metagenome.name }}</li>
 </ol>
 <p>
-<h4>Name</h4>
+<h3>Metagenome</h3>
 {{ metagenome.name }}<br />
 <h4>Description</h4>
 {{ metagenome.description }}
